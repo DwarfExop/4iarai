@@ -110,6 +110,8 @@ void C4Bot::move(int timeout)
 
 	Move bestMove = checkState();
 
+	bestMove == -1 ? std::cerr << "used ab" : std::cerr << "used route";
+
 	if(bestMove == -1) bestMove = miniMax(8, state, getCurrentPlayer(state), alpha, beta)[1];
 
 	std::cout << "place_disc " << bestMove << std::endl;
