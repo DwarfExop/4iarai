@@ -1,5 +1,6 @@
 // c4bot.cpp
 // Aswin van Woudenberg
+// Lars Schipper (DwarfExop)
 
 #include "c4bot.h"
 
@@ -32,10 +33,11 @@ int C4Bot::getTimeElapsed() {
 
 int C4Bot::eval(const State &board, const Player &player, const int &ply)
 {
+	// if you win the state is good so return high number, if the opponent wins return low number
 	if (getWinner(board) == bot) return  10000000;
 	if (getWinner(board) == opp) return -10000000;
 
-
+	// eval the current state with the evaluation table, better position return better numbers
 	int utility = 138;
 	int sum = 0;
 	for (int i = 0; i < 6; i++)
@@ -87,6 +89,7 @@ std::array<int, 2> C4Bot::miniMax(int ply, const State &board, const Player &pla
 
 Move C4Bot::checkState() 
 {
+	// check for routes in the route map
 	for (auto win : winRoute) {
 		State temp = { { { { Player::None } } } };
 
@@ -107,11 +110,11 @@ void C4Bot::move(int timeout)
 
 	int alpha = std::numeric_limits<int>::min();
 	int beta = std::numeric_limits<int>::max();
-
+	
+	// check for a possible route to follow
 	Move bestMove = checkState();
 
-	bestMove == -1 ? std::cerr << "used ab" : std::cerr << "used route";
-
+	// if none is found use alpha beta for your move
 	if(bestMove == -1) bestMove = miniMax(8, state, getCurrentPlayer(state), alpha, beta)[1];
 
 	std::cout << "place_disc " << bestMove << std::endl;
